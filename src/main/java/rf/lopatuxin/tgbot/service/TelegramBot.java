@@ -1,6 +1,5 @@
 package rf.lopatuxin.tgbot.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,10 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final BotConfig botConfig;
+
+    public TelegramBot(BotConfig botConfig) {
+        super(botConfig.getBotToken());
+        this.botConfig = botConfig;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -77,10 +80,5 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         return botConfig.getBotUsername();
-    }
-
-    @Override
-    public String getBotToken() {
-        return botConfig.getBotToken();
     }
 }
