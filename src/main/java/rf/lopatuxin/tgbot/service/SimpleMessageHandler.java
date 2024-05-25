@@ -15,33 +15,42 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SimpleMessageHandler implements MessageHandler {
 
+    private static final String START_COMMAND = "/start";
+    private static final String ABOUT_COMPANY_COMMAND = "О компании";
+
     @Override
     public SendMessage handleUpdate(Update update) {
         if (checkUpdate(update)) {
             var message = update.getMessage();
             return handleCommand(message.getText(), message.getChatId());
         }
-        return null;
+        return createDefaultMessage();
+    }
+
+    private SendMessage createDefaultMessage() {
+        SendMessage message = new SendMessage();
+        message.setText("Обновление не содержит текстового сообщения.");
+        return message;
     }
 
     private SendMessage handleCommand(String command, Long chatId) {
         switch (command) {
-            case "/start" -> {
-                return sendWelcomeMessage(chatId);
+            case START_COMMAND -> {
+                return createWelcomeMessage(chatId);
             }
-            case "О компании" -> {
-                return sendAboutCompanyMessage(chatId);
+            case ABOUT_COMPANY_COMMAND -> {
+                return createAboutCompanyMessage(chatId);
             }
             default -> {
-                return sendUnknownCommandMessage(chatId);
+                return createUnknownCommandMessage(chatId);
             }
         }
     }
 
-    private SendMessage sendUnknownCommandMessage(Long chatId) {
+    private SendMessage createUnknownCommandMessage(Long chatId) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.setText("Неизвестная команда. Пожалуйста, используйте /start или \"О компании\".");
+        message.setText("Неизвестная команда. Пожалуйста, используйте /start.");
         return message;
     }
 
@@ -50,7 +59,7 @@ public class SimpleMessageHandler implements MessageHandler {
         return update.hasMessage() && update.getMessage().hasText();
     }
 
-    private SendMessage sendWelcomeMessage(Long chatId) {
+    private SendMessage createWelcomeMessage(Long chatId) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText("Добро пожаловать! Нажмите кнопку 'О компании', чтобы узнать больше.");
@@ -59,7 +68,7 @@ public class SimpleMessageHandler implements MessageHandler {
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         KeyboardRow row = new KeyboardRow();
-        row.add(new KeyboardButton("О компании"));
+        row.add(new KeyboardButton(ABOUT_COMPANY_COMMAND));
         keyboard.add(row);
 
         keyboardMarkup.setKeyboard(keyboard);
@@ -70,7 +79,7 @@ public class SimpleMessageHandler implements MessageHandler {
         return message;
     }
 
-    private SendMessage sendAboutCompanyMessage(Long chatId) {
+    private SendMessage createAboutCompanyMessage(Long chatId) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText("Мы компания, которая занимается... (добавьте ваше описание здесь).");
