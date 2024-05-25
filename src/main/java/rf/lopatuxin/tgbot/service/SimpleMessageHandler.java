@@ -19,14 +19,30 @@ public class SimpleMessageHandler implements MessageHandler {
     public SendMessage handleUpdate(Update update) {
         if (checkUpdate(update)) {
             var message = update.getMessage();
-
-            if (message.getText().equals("/start")) {
-                return sendWelcomeMessage(message.getChatId());
-            } else if (message.getText().equals("О компании")) {
-                return sendAboutCompanyMessage(message.getChatId());
-            }
+            return handleCommand(message.getText(), message.getChatId());
         }
         return null;
+    }
+
+    private SendMessage handleCommand(String command, Long chatId) {
+        switch (command) {
+            case "/start" -> {
+                return sendWelcomeMessage(chatId);
+            }
+            case "О компании" -> {
+                return sendAboutCompanyMessage(chatId);
+            }
+            default -> {
+                return sendUnknownCommandMessage(chatId);
+            }
+        }
+    }
+
+    private SendMessage sendUnknownCommandMessage(Long chatId) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText("Неизвестная команда. Пожалуйста, используйте /start или \"О компании\".");
+        return message;
     }
 
     private boolean checkUpdate(Update update) {
