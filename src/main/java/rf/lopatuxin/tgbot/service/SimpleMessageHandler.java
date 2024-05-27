@@ -7,9 +7,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import rf.lopatuxin.tgbot.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class SimpleMessageHandler implements MessageHandler {
 
     private static final String START_COMMAND = "/start";
     private static final String ABOUT_COMPANY_COMMAND = "О компании";
+    private final MessageService messageService;
 
     @Override
     public SendMessage handleUpdate(Update update) {
@@ -80,9 +83,12 @@ public class SimpleMessageHandler implements MessageHandler {
     }
 
     private SendMessage createAboutCompanyMessage(Long chatId) {
+        Optional<Message> messageOptional = messageService.findByCommand(ABOUT_COMPANY_COMMAND);
+        String aboutCompanyMessage = messageOptional.map(Message::getResponse).orElse("Попробуйте нажать другую кнопку");
+
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.setText("Мы компания, которая занимается... (добавьте ваше описание здесь).");
+        message.setText(aboutCompanyMessage);
 
         return message;
     }

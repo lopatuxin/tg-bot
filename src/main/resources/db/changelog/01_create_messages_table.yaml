@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Anton
+      changes:
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: command
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: response
+                  type: TEXT
+                  constraints:
+                    nullable: false
