@@ -13,7 +13,11 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public Optional<Message> findByCommand(String command) {
+    public String getMessage(String command) {
+        return findByCommand(command).map(Message::getResponse).orElse("Ошибка");
+    }
+
+    private Optional<Message> findByCommand(String command) {
         return messageRepository.findByCommand(command);
     }
 }
