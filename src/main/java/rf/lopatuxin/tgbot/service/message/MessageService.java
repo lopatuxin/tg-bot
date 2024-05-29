@@ -1,4 +1,4 @@
-package rf.lopatuxin.tgbot.service;
+package rf.lopatuxin.tgbot.service.message;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
