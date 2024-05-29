@@ -3,7 +3,6 @@ package rf.lopatuxin.tgbot.service.command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rf.lopatuxin.tgbot.service.command.CommandHandler;
 
 import java.util.HashMap;
 import java.util.List;

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import rf.lopatuxin.tgbot.service.command.CommandHandlerRegistry;
-import rf.lopatuxin.tgbot.service.message.MessageHandler;
 
 @Service
 @RequiredArgsConstructor
