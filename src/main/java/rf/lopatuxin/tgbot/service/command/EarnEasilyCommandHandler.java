@@ -6,12 +6,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import rf.lopatuxin.tgbot.service.message.MessageService;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AboutCompanyCommandHandler implements CommandHandler {
+public class EarnEasilyCommandHandler implements CommandHandler {
 
-    private static final String COMMAND = "О компании";
+    private static final String COMMAND = "Как легко зарабатывать";
+    private static final List<String> BUTTON_NAMES = Collections.emptyList();
     private final MessageService messageService;
 
     @Override
@@ -21,7 +23,6 @@ public class AboutCompanyCommandHandler implements CommandHandler {
 
     @Override
     public SendMessage handle(Long chatId) {
-
-        return messageService.createMessage(chatId, Collections.emptyList(), COMMAND);
+        return messageService.createMessage(chatId, BUTTON_NAMES, COMMAND);
     }
 }

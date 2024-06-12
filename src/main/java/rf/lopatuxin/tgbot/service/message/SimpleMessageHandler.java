@@ -20,6 +20,12 @@ public class SimpleMessageHandler implements MessageHandler {
             if (commandHandler != null) {
                 return commandHandler.handle(message.getChatId());
             }
+        } else if (update.hasCallbackQuery()) {
+            var callbackQuery = update.getCallbackQuery();
+            var commandHandler = commandHandlerRegistry.getHandler(callbackQuery.getData());
+            if (commandHandler != null) {
+                return commandHandler.handle(callbackQuery.getMessage().getChatId());
+            }
         }
         return createDefaultMessage();
     }

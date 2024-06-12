@@ -5,14 +5,15 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import rf.lopatuxin.tgbot.service.message.MessageService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class StartCommandHandler implements CommandHandler {
+public class AboutWorkCommandHandler implements CommandHandler {
 
-    private static final String COMMAND = "/start";
-    private static final List<String> BUTTON_NAMES = List.of("Хочу зарабатывать\uD83D\uDCB0");
+    private static final String COMMAND = "Расскажи о работе";
+    private static final List<String> BUTTON_NAMES = Collections.emptyList();
     private final MessageService messageService;
 
     @Override
