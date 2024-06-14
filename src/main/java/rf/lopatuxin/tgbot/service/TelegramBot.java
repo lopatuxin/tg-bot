@@ -34,10 +34,10 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.getCallbackQuery() != null && "Хочу зарабатывать\uD83D\uDCB0".equals(update.getCallbackQuery().getData())) {
+        if (update.hasCallbackQuery() && "Хочу зарабатывать\uD83D\uDCB0".equals(update.getCallbackQuery().getData())) {
             scheduleCallbackMessage(update, 3, "Хочу также");
             scheduleCallbackMessage(update, 4, "Моя жизнь");
-            scheduleCallbackMessage(update, 5, "Расскажи о работе");
+            scheduleCallbackMessage(update, 5, "Работа в интернете");
             scheduleCallbackMessage(update, 6, "Как легко зарабатывать");
             scheduleCallbackMessage(update, 7, "Напоминание");
         }

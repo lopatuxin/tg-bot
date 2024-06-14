@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import rf.lopatuxin.tgbot.service.command.CommandHandlerRegistry;
 
 @Service
@@ -18,13 +19,15 @@ public class SimpleMessageHandler implements MessageHandler {
             var message = update.getMessage();
             var commandHandler = commandHandlerRegistry.getHandler(message.getText());
             if (commandHandler != null) {
-                return commandHandler.handle(message.getChatId());
+                String userName = getUserNameFromCommand(message.getText(), update);
+                return commandHandler.handle(message.getChatId(), userName);
             }
         } else if (update.hasCallbackQuery()) {
             var callbackQuery = update.getCallbackQuery();
             var commandHandler = commandHandlerRegistry.getHandler(callbackQuery.getData());
             if (commandHandler != null) {
-                return commandHandler.handle(callbackQuery.getMessage().getChatId());
+                String userName = getUserNameFromCommand(callbackQuery.getMessage().getText(), update);
+                return commandHandler.handle(callbackQuery.getMessage().getChatId(), userName);
             }
         }
         return createDefaultMessage();
@@ -39,5 +42,21 @@ public class SimpleMessageHandler implements MessageHandler {
     private boolean checkUpdate(Update update) {
 
         return update.hasMessage() && update.getMessage().hasText();
+    }
+
+    private String getUserNameFromCommand(String command, Update update) {
+        return "Расскажи о работе".equalsIgnoreCase(command)
+                ? getUserName(update)
+                : "";
+    }
+
+    private String getUserName(Update update) {
+        User user = null;
+        if (update.hasMessage()) {
+            user = update.getMessage().getFrom();
+        } else if (update.hasCallbackQuery()) {
+            user = update.getCallbackQuery().getFrom();
+        }
+        return user != null ? user.getFirstName() : "Unknown user";
     }
 }

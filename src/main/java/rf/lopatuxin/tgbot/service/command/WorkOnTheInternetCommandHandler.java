@@ -10,9 +10,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EarnEasilyCommandHandler implements CommandHandler {
+public class WorkOnTheInternetCommandHandler implements CommandHandler {
 
-    private static final String COMMAND = "Как легко зарабатывать";
+    private static final String COMMAND = "Работа в интернете";
     private static final List<String> BUTTON_NAMES = Collections.emptyList();
     private final MessageService messageService;
 

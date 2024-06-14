@@ -22,7 +22,7 @@ public class ReminderCommandHandler implements CommandHandler {
     }
 
     @Override
-    public SendMessage handle(Long chatId) {
-        return messageService.createMessage(chatId, BUTTON_NAMES, COMMAND);
+    public SendMessage handle(Long chatId, String name) {
+        return messageService.createMessage(chatId, BUTTON_NAMES, COMMAND, name);
     }
 }

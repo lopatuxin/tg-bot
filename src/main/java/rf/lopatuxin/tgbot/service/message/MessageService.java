@@ -21,8 +21,8 @@ public class MessageService {
 
     private static final String MESSAGES_PATH = "src/main/resources/messages/";
 
-    public SendMessage createMessage(Long chatId, List<String> buttonNames, String command) {
-        SendMessage message = new SendMessage(chatId.toString(), getMessage(command));
+    public SendMessage createMessage(Long chatId, List<String> buttonNames, String command, String name) {
+        SendMessage message = new SendMessage(chatId.toString(), getMessage(command, name));
 
         if (hasValidButtons(buttonNames)) {
             message.setReplyMarkup(createInlineKeyboard(buttonNames));
@@ -65,9 +65,9 @@ public class MessageService {
         return inlineKeyboardMarkup;
     }
 
-    private String getMessage(String command) {
+    private String getMessage(String command, String name) {
         try {
-            return new String(Files.readAllBytes(Paths.get(MESSAGES_PATH + command + ".txt")));
+            return name + new String(Files.readAllBytes(Paths.get(MESSAGES_PATH + command + ".txt")));
         } catch (IOException e) {
             e.printStackTrace();
             return "Ошибка при чтении сообщения";
