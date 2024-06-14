@@ -7,19 +7,19 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import rf.lopatuxin.tgbot.model.Message;
-import rf.lopatuxin.tgbot.repository.MessageRepository;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MessageService {
 
-    private final MessageRepository messageRepository;
+    private static final String MESSAGES_PATH = "src/main/resources/messages/";
 
     public SendMessage createMessage(Long chatId, List<String> buttonNames, String command) {
         SendMessage message = new SendMessage(chatId.toString(), getMessage(command));
@@ -66,10 +66,11 @@ public class MessageService {
     }
 
     private String getMessage(String command) {
-        return findByCommand(command).map(Message::getResponse).orElse("Ошибка");
-    }
-
-    private Optional<Message> findByCommand(String command) {
-        return messageRepository.findByCommand(command);
+        try {
+            return new String(Files.readAllBytes(Paths.get(MESSAGES_PATH + command + ".txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Ошибка при чтении сообщения";
+        }
     }
 }

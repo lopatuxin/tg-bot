@@ -63,6 +63,14 @@ public class TelegramBot extends TelegramLongPollingBot {
         }, time, TimeUnit.MINUTES);
     }
 
+    public void sendMessage(SendMessage message) {
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Ошибка отправки сообщения" + e.getMessage());
+        }
+    }
+
     private void sendVideoByCommand(String command, String text, String nameVideo, String chatId) {
         if (text.equals(command)) {
             String videoPath = "src/main/resources/videos/" + nameVideo;
@@ -82,13 +90,5 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         return botConfig.getBotUsername();
-    }
-
-    public void sendMessage(SendMessage message) {
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            log.error("Ошибка отправки сообщения" + e.getMessage());
-        }
     }
 }
