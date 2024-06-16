@@ -65,6 +65,10 @@ public class MessageService {
     }
 
     private String getMessage(String command, String name) {
-        return name + messageRepository.findByCommand(command).map(Message::getResponse);
+        String messageText = messageRepository.findByCommand(command)
+                .map(Message::getResponse)
+                .orElse("");
+
+        return name + messageText;
     }
 }
