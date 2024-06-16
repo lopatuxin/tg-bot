@@ -35,3 +35,5 @@ build/
 
 # Ignore bot configuration file
 botconfig.properties
+db.properties
+

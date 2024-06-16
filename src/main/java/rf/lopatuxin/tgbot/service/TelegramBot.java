@@ -55,7 +55,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             sendMessage(message);
 
             sendVideoByCommand(command, "Моя жизнь", "My life.mp4", message.getChatId());
-            sendVideoByCommand(command, "Расскажи о работе", "about_your_work.mp4", message.getChatId());
+            sendVideoByCommand(command, "Работа в интернете", "about_your_work.mp4", message.getChatId());
             sendVideoByCommand(command, "Как легко зарабатывать", "money.mp4", message.getChatId());
 
             scheduler.shutdown();
@@ -74,7 +74,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private void sendVideoByCommand(String command, String text, String nameVideo, String chatId) {
         if (text.equals(command)) {
             String videoPath = "src/main/resources/videos/" + nameVideo;
-            SendVideo videoMessage = messageService.createVideoMessage(chatId, videoPath, "Смотри видео");
+            SendVideo videoMessage = messageService.createVideoMessage(chatId, videoPath, "Смотрим видео");
             sendVideoMessage(videoMessage);
         }
     }

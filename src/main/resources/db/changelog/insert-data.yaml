@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Anton
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/messages.sql
+            relativeToChangelogFile: false
+            stripComments: true
+            splitStatements: true
+            endDelimiter: ";"

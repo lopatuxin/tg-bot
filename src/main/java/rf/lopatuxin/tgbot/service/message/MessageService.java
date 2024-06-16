@@ -7,11 +7,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import rf.lopatuxin.tgbot.model.Message;
+import rf.lopatuxin.tgbot.repository.MessageRepository;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageService {
 
-    private static final String MESSAGES_PATH = "src/main/resources/messages/";
+    private final MessageRepository messageRepository;
 
     public SendMessage createMessage(Long chatId, List<String> buttonNames, String command, String name) {
         SendMessage message = new SendMessage(chatId.toString(), getMessage(command, name));
@@ -66,11 +65,6 @@ public class MessageService {
     }
 
     private String getMessage(String command, String name) {
-        try {
-            return name + new String(Files.readAllBytes(Paths.get(MESSAGES_PATH + command + ".txt")));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Ошибка при чтении сообщения";
-        }
+        return name + messageRepository.findByCommand(command).map(Message::getResponse);
     }
 }
