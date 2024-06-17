@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 2
       author: Anton
       changes:
         - createTable:
-            tableName: messages
+            tableName: videos
             columns:
               - column:
                   name: id
@@ -14,12 +14,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: command
+                  name: name
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
-                  name: response
-                  type: TEXT
+                  name: content
+                  type: LONGBLOB
                   constraints:
                     nullable: false

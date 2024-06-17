@@ -3,14 +3,11 @@ package rf.lopatuxin.tgbot.service.message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import rf.lopatuxin.tgbot.model.Message;
 import rf.lopatuxin.tgbot.repository.MessageRepository;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +25,6 @@ public class MessageService {
         }
 
         return message;
-    }
-
-    public SendVideo createVideoMessage(String chatId, String videoPath, String caption) {
-        File videoFile = new File(videoPath);
-        InputFile video = new InputFile(videoFile);
-
-        SendVideo sendVideo = new SendVideo();
-        sendVideo.setChatId(chatId);
-        sendVideo.setVideo(video);
-        sendVideo.setCaption(caption);
-
-        return sendVideo;
     }
 
     private boolean hasValidButtons(List<String> buttonNames) {

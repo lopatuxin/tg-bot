@@ -5,13 +5,14 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import rf.lopatuxin.tgbot.config.BotConfig;
 import rf.lopatuxin.tgbot.service.message.MessageHandler;
-import rf.lopatuxin.tgbot.service.message.MessageService;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,13 +24,13 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfig botConfig;
     private final MessageHandler messageHandler;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
-    private final MessageService messageService;
+    private final VideoService videoService;
 
-    public TelegramBot(BotConfig botConfig, MessageHandler messageHandler, MessageService messageService) {
+    public TelegramBot(BotConfig botConfig, MessageHandler messageHandler, VideoService videoService) {
         super(botConfig.getBotToken());
         this.botConfig = botConfig;
         this.messageHandler = messageHandler;
-        this.messageService = messageService;
+        this.videoService = videoService;
     }
 
     @Override
@@ -71,11 +72,14 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendVideoByCommand(String command, String text, String nameVideo, String chatId) {
+    private void sendVideoByCommand(String command, String text, String videoName, String chatId) {
         if (text.equals(command)) {
-            String videoPath = "src/main/resources/videos/" + nameVideo;
-            SendVideo videoMessage = messageService.createVideoMessage(chatId, videoPath, "Смотрим видео");
-            sendVideoMessage(videoMessage);
+            videoService.getVideo(videoName).ifPresent(video -> {
+                InputFile videoFile = new InputFile(new ByteArrayInputStream(video.getContent()), videoName);
+                SendVideo videoMessage = new SendVideo(chatId, videoFile);
+                videoMessage.setCaption("Смотри видео");
+                sendVideoMessage(videoMessage);
+            });
         }
     }
 

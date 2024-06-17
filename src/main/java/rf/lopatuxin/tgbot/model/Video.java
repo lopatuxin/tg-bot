@@ -6,15 +6,15 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "messages")
+@Table(name = "videos")
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+@AllArgsConstructor
+public class Video {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String command;
-    private String response;
+    private String name;
+    private byte[] content;
 }
