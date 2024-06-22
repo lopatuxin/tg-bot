@@ -1,7 +1,12 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 002-create-videos.yml
       author: Anton
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: messages
       changes:
         - createTable:
             tableName: videos

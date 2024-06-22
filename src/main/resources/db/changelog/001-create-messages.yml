@@ -1,7 +1,12 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 001-create-messages
       author: Anton
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: messages
       changes:
         - createTable:
             tableName: messages
