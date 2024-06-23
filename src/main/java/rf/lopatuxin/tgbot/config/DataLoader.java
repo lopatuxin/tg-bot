@@ -1,14 +1,15 @@
 package rf.lopatuxin.tgbot.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import rf.lopatuxin.tgbot.service.VideoService;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
@@ -17,14 +18,20 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        saveVideoIfNotExist("Моя жизнь", Paths.get("src/main/resources/videos/My life.mp4"));
-        saveVideoIfNotExist("Как легко зарабатывать", Paths.get("src/main/resources/videos/money.mp4"));
-        saveVideoIfNotExist("Работа в интернете", Paths.get("src/main/resources/videos/about_your_work.mp4"));
+        saveVideoIfNotExist("Моя жизнь", "/videos/My life.mp4");
+        saveVideoIfNotExist("Как легко зарабатывать", "/videos/money.mp4");
+        saveVideoIfNotExist("Работа в интернете", "/videos/about_your_work.mp4");
     }
 
-    private void saveVideoIfNotExist(String name, Path path) throws IOException {
+    private void saveVideoIfNotExist(String name, String resourcePath) throws IOException {
         if (videoService.getVideo(name).isEmpty()) {
-            videoService.saveVideo(name, path);
+            try (InputStream videoStream = getClass().getResourceAsStream(resourcePath)) {
+                if (videoStream != null) {
+                    videoService.saveVideo(name, videoStream);
+                } else {
+                    log.error("Видео не найдено: " + resourcePath);
+                }
+            }
         }
     }
 }

@@ -55,9 +55,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             SendMessage message = messageHandler.handleUpdate(update);
             sendMessage(message);
 
-            sendVideoByCommand(command, "Моя жизнь", "My life.mp4", message.getChatId());
-            sendVideoByCommand(command, "Работа в интернете", "about_your_work.mp4", message.getChatId());
-            sendVideoByCommand(command, "Как легко зарабатывать", "money.mp4", message.getChatId());
+            sendVideoByCommand(command, "Моя жизнь", message.getChatId());
+            sendVideoByCommand(command, "Работа в интернете", message.getChatId());
+            sendVideoByCommand(command, "Как легко зарабатывать", message.getChatId());
 
             scheduler.shutdown();
 
@@ -72,12 +72,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendVideoByCommand(String command, String text, String videoName, String chatId) {
-        if (text.equals(command)) {
+    private void sendVideoByCommand(String command, String videoName, String chatId) {
+        if (videoName.equals(command)) {
             videoService.getVideo(videoName).ifPresent(video -> {
                 InputFile videoFile = new InputFile(new ByteArrayInputStream(video.getContent()), videoName);
                 SendVideo videoMessage = new SendVideo(chatId, videoFile);
-                videoMessage.setCaption("Смотри видео");
                 sendVideoMessage(videoMessage);
             });
         }

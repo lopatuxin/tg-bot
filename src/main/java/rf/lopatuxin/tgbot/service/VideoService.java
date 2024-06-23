@@ -6,8 +6,7 @@ import rf.lopatuxin.tgbot.model.Video;
 import rf.lopatuxin.tgbot.repository.VideoRepository;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.util.Optional;
 
 @Service
@@ -16,8 +15,8 @@ public class VideoService {
 
     private final VideoRepository videoRepository;
 
-    public void saveVideo(String name, Path filePath) throws IOException {
-        byte[] content = Files.readAllBytes(filePath);
+    public void saveVideo(String name, InputStream videoStream) throws IOException {
+        byte[] content = videoStream.readAllBytes();
         Video video = Video.builder()
                 .name(name)
                 .content(content)
