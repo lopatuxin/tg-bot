@@ -52,7 +52,7 @@ jobs:
           chmod 600 private_key
           ssh -i private_key -o StrictHostKeyChecking=no root@217.28.222.43 << 'EOF'
             cd /root
-            git pull
+            git pull origin master
             ./mvnw clean install
-            systemctl restart tg-bot
+            systemctl restart tg-bot.service
           EOF
