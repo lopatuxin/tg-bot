@@ -42,6 +42,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             scheduleCallbackMessage(update, 6, "Как легко зарабатывать");
             scheduleCallbackMessage(update, 7, "Напоминание");
         }
+
         SendMessage message = messageHandler.handleUpdate(update);
         sendMessage(message);
     }
