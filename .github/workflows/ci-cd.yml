@@ -54,4 +54,9 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
-          ssh -i private_key -o StrictHostKeyChecking=no user@your-server 'cd /path/to/your/project && git pull && ./mvnw clean install && systemctl restart your-bot-service'
+          ssh -i private_key -o StrictHostKeyChecking=no root@217.28.222.43 << 'EOF'
+            cd /root
+            git pull
+            ./mvnw clean install
+            systemctl restart tg-bot
+          EOF
