@@ -1,11 +1,14 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: "insert_data"
       author: Anton
       changes:
         - sqlFile:
-            path: db/changelog/sql/messages.sql
-            relativeToChangelogFile: false
-            stripComments: true
-            splitStatements: true
-            endDelimiter: ";"
+            path: 'sql/messages.sql'
+            relativeToChangelogFile: true
+        - sqlFile:
+            path: 'sql/delete_messages_001.sql'
+            relativeToChangelogFile: true
+        - sqlFile:
+            path: 'sql/insert_messages_001.sql'
+            relativeToChangelogFile: true
