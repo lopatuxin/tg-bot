@@ -59,9 +59,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             sendVideoByCommand(command, "Моя жизнь", message.getChatId());
             sendVideoByCommand(command, "Работа в интернете", message.getChatId());
             sendVideoByCommand(command, "Как легко зарабатывать", message.getChatId());
-
-            scheduler.shutdown();
-
         }, time, TimeUnit.MINUTES);
     }
 
