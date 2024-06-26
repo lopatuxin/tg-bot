@@ -45,9 +45,15 @@ public class SimpleMessageHandler implements MessageHandler {
     }
 
     private String getUserNameFromCommand(String command, Update update) {
-        return "Расскажи о работе".equalsIgnoreCase(command)
-                ? getUserName(update)
-                : "";
+        if ("Расскажи о работе".equalsIgnoreCase(command)
+                || "Хочу узнать о работе".equalsIgnoreCase(command)
+                || "Хочу к тебе в команду".equalsIgnoreCase(command)) {
+
+            return getUserName(update);
+        } else {
+
+            return "";
+        }
     }
 
     private String getUserName(Update update) {

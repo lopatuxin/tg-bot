@@ -5,3 +5,7 @@ databaseChangeLog:
       file: db/changelog/insert/insert-data.yml
   - include:
       file: db/changelog/002-create-videos.yml
+  - include:
+      file: db/changelog/insert/sql/insert_messages_002.sql
+  - include:
+      file: db/changelog/insert/sql/insert_messages_003.sql
