@@ -4,6 +4,9 @@ databaseChangeLog:
       author: Anton
       changes:
         - sqlFile:
+            path: 'sql/truncate_messages.sql'
+            relativeToChangelogFile: true
+        - sqlFile:
             path: 'sql/messages.sql'
             relativeToChangelogFile: true
         - sqlFile:
